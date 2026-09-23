@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "294693841480",
+    "project_id": "moodloop-4c407",
+    "storage_bucket": "moodloop-4c407.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294693841480:android:7f1e33abea52eb1f61c67d",
+        "android_client_info": {
+          "package_name": "com.moodloop.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294693841480-e7ter248uku66s47jo07u9kbsohkelql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moodloop.app",
+            "certificate_hash": "54e10e5f91bf85ed191f7ee8889b8b47dc6710e3"
+          }
+        },
+        {
+          "client_id": "294693841480-tmdjqs65m5cv0mtcjpsoah2r1248vsk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7j5eP8g0yjALAI_N-eosDDgc0TDZ5jkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294693841480-tmdjqs65m5cv0mtcjpsoah2r1248vsk6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

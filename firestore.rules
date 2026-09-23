@@ -1,0 +1,65 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read, create, update: if isOwner(userId);
+      allow delete: if false;
+
+      match /moods/{moodId} {
+        allow read, create, update: if isOwner(userId);
+        allow delete: if false;
+      }
+
+      match /reflections/{reflectionId} {
+        allow read, create, update: if isOwner(userId);
+        allow delete: if false;
+      }
+
+      match /achievements/{achievementId} {
+        allow read, create, update: if isOwner(userId);
+        allow delete: if false;
+      }
+
+      match /settings/{settingId} {
+        allow read, create, update: if isOwner(userId);
+        allow delete: if false;
+      }
+
+      match /helpedPosts/{postId} {
+        allow read, create: if isOwner(userId);
+        allow update, delete: if false;
+      }
+
+      match /fcmTokens/{tokenId} {
+        allow read, create, update: if isOwner(userId)
+          && request.resource.data.token is string
+          && request.resource.data.platform == 'android';
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    match /wallPosts/{postId} {
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.anonymous == true;
+
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['helped', 'updatedAt']);
+
+      allow delete: if false;
+    }
+  }
+}
