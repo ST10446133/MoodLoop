@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">@font/moodloop</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/moodloop_background</item>
+        <item name="android:navigationBarColor">@color/moodloop_background</item>
+        <item name="android:colorAccent">@color/moodloop_primary</item>
+    </style>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="moodloop_background">#F7FAF8</color>
+    <color name="moodloop_primary">#4F7C73</color>
+    <color name="moodloop_primary_dark">#335C55</color>
+</resources>
