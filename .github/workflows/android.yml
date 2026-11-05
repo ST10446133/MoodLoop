@@ -1,0 +1,34 @@
+name: Android build and tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  android:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run Android unit tests and build debug app
+        shell: pwsh
+        run: .\gradlew.bat testDebugUnitTest assembleDebug
+
+      - name: Check Firebase Functions JavaScript syntax
+        shell: pwsh
+        run: node --check functions/index.js

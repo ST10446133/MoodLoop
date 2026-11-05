@@ -1,0 +1,9 @@
+.gradle/
+**/build/
+local.properties
+.idea/
+.kotlin/
+.studio-config/
+node_modules/
+functions/node_modules/
+*.iml

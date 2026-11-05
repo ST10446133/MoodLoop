@@ -1,25 +1,11 @@
-plugins {
-    id 'com.android.application'
-    id 'com.google.gms.google-services'
-}
-
-android {
-    namespace 'com.moodloop.app'
-    compileSdk 36
-
-    defaultConfig {
-        applicationId 'com.moodloop.app'
-        minSdk 23
-        targetSdk 36
-        versionCode 1
-        versionName '1.0'
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
     }
-}
 
-dependencies {
-    implementation platform('com.google.firebase:firebase-bom:34.1.0')
-    implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-firestore'
-    implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.android.gms:play-services-auth:21.3.0'
+    dependencies {
+        classpath 'com.android.tools.build:gradle:9.2.0'
+        classpath 'com.google.gms:google-services:4.5.0'
+    }
 }
