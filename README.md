@@ -57,3 +57,47 @@ GitHub Actions runs the same Android test/build command and checks the Cloud Fun
 The Android application uses the Firebase project configuration in `app/google-services.json`. If you connect a different Firebase project, replace that file and update `.firebaserc`. Deploy Firestore rules and Cloud Functions from the repository root with the Firebase CLI when backend changes are needed.
 
 The Firebase backend stores account data and anonymous wall posts in Firestore. The app uses Firebase Authentication for signed-in access; Firestore security rules protect user-owned collections.
+
+## Firebase REST API testing with Postman
+
+MoodLoop can be tested through Firebase's REST APIs in Postman. This is direct access to Firebase Authentication and Cloud Firestore; it is not a separate MoodLoop server or a custom REST endpoint, and the Android app continues to use the Firebase Android SDK.
+
+### Sign in and get a Firebase ID token
+
+Create a `POST` request to the Firebase Authentication REST API:
+
+```text
+https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=YOUR_FIREBASE_WEB_API_KEY
+```
+
+Set `Content-Type` to `application/json` and use this raw JSON body, replacing the placeholders in Postman:
+
+```json
+{
+  "email": "YOUR_FIREBASE_USER_EMAIL",
+  "password": "YOUR_FIREBASE_USER_PASSWORD",
+  "returnSecureToken": true
+}
+```
+
+A successful response contains `localId` (the Firebase Authentication UID) and `idToken`. Treat the password and ID token as private: do not commit them, export them in a shared collection, or post them in screenshots.
+
+### Read the signed-in user's Firestore document
+
+Create a `GET` request using the UID returned as `localId`:
+
+```text
+https://firestore.googleapis.com/v1/projects/YOUR_FIREBASE_PROJECT_ID/databases/(default)/documents/users/YOUR_FIREBASE_UID
+```
+
+Add this request header, using the token returned as `idToken`:
+
+```text
+Authorization: Bearer YOUR_FIREBASE_ID_TOKEN
+```
+
+Firestore evaluates requests authenticated with a Firebase ID token against the project's Firestore Security Rules. In this project, a user can access `/users/{userId}` and its private subcollections only when `{userId}` matches their authenticated UID. Therefore, requesting `/users` as a collection is not allowed by these owner-only rules and returns `PERMISSION_DENIED` (403). Do not make the data public or weaken the rules to resolve that response.
+
+Direct Firebase Authentication and Firestore REST requests can be tested on the no-cost Spark plan, within Firebase's quotas; deploying Cloud Functions is separate and requires the Blaze plan. See the [Firebase pricing plan documentation](https://firebase.google.com/docs/projects/billing/firebase-pricing-plans), [Firebase Authentication REST API](https://firebase.google.com/docs/reference/rest/auth), and [Cloud Firestore REST API authentication documentation](https://firebase.google.com/docs/firestore/use-rest-api#authentication_and_authorization) for current details.
+
+These Postman requests are for manual API testing and documentation. They do not add REST networking code to the Android app. Never commit real passwords, Firebase ID tokens, service-account keys, or other credentials to this repository.
